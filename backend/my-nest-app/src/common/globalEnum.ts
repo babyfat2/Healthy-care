@@ -1,0 +1,16 @@
+export enum EROLE {
+    PATIENT = "PATEINT",
+    DOCTOR = "DOCTOR",
+    HOSPITAL = "HOSPITAL"
+}
+
+export enum ESPECIALTIES {
+    NOI = "NOI KHOA",
+}
+
+export enum ESTATUS {
+    PENDING = 'PENDING',
+    COMFIRMED = 'COMFIRMED',
+    COMPLETED = 'COMPLETED',
+    CANCELLED= 'CANCELLED',
+}
