@@ -1,6 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Clinic } from "./clinic.entity";
-import { Prescriptions } from "./prescription.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('doctors')
 export class Doctor {
@@ -20,19 +18,12 @@ export class Doctor {
     @Column({type: 'varchar', length: 245, nullable: true})
     license_number: string;
 
-    @Column({type: 'int', nullable: false})
-    clinic_id: number;
-
-    @ManyToOne(() => Clinic, clinic => clinic.doctor, {
+    @OneToOne(() => Doctor, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
+        nullable: true
     })
-    clinic: Clinic;
-
-    @OneToMany(() => Prescriptions, prescription => prescription.doctor,{
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-    })
-    prescription: Prescriptions[];
+    @JoinColumn({ name: "user_id" })
+    doctor: Doctor;
 
 }

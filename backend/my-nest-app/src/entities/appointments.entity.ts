@@ -1,7 +1,9 @@
 import { ESTATUS } from "src/common/globalEnum";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Hospital } from "./hospital.entity";
+import { Patient } from "./patient.entity";
+import { Schedule } from "./schedule.entity";
 
 @Entity('appointments') 
 export class Appointment {
@@ -13,7 +15,7 @@ export class Appointment {
     id: number;
 
     @Column({type: 'int', nullable: false})
-    pateint_id: number;
+    patient_id: number;
 
     @Column({type: 'int', nullable: false})
     hospital_id: number;
@@ -24,11 +26,12 @@ export class Appointment {
     @Column({type: 'enum', enum: ESTATUS, default: ESTATUS.PENDING})
     status: ESTATUS;
 
-    @ManyToOne(() => User, user => user.appointment,{
+    @ManyToOne(() => Patient, patient => patient.appointment,{
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
     })
-    user: User;
+    @JoinColumn({name: 'patient_id'})
+    patient: Patient;
 
     @ManyToOne(() => Hospital, hospital => hospital.appointment, {
         onDelete: 'CASCADE',
@@ -36,5 +39,11 @@ export class Appointment {
     })
     hospital: Hospital;
 
+
+    @OneToMany(() => Schedule, schedule => schedule.appointment, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    })
+    schedule: Schedule[];
 
 }

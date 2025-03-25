@@ -2,9 +2,12 @@ import { ESPECIALTIES } from "src/common/globalEnum";
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Doctor } from "./doctor.entity";
 import { Hospital } from "./hospital.entity";
+import { WorkCalender } from "./work_calender.entity";
+import { Schedule } from "./schedule.entity";
+import { Prescriptions } from "./prescription.entity";
 
-@Entity("clinic")
-export class Clinic {
+@Entity("rooms")
+export class Room {
     constructor() {
 
     }
@@ -24,17 +27,29 @@ export class Clinic {
     @Column({type: 'enum', enum: ESPECIALTIES, default: ESPECIALTIES.NOI})
     specialties: ESPECIALTIES;
 
-    @OneToMany(() => Doctor, doctor => doctor.clinic, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-    })
-    doctor: Doctor;
-
     @ManyToOne(() => Hospital, hospital => hospital.clinic, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
     })
     @JoinColumn({name: "hospital_id"})
     hospital: Hospital;
+
+    @OneToMany(() => WorkCalender, workCalender => workCalender.room, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    workCalender: WorkCalender[];
+
+    @OneToMany(() => Schedule, schedule => schedule.room, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    schedule: Schedule[];
+
+    @OneToMany(() => Prescriptions, prescriptions => prescriptions.room, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    })
+    prescriptions: Prescriptions[]
 
 }

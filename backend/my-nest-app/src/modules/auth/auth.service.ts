@@ -114,7 +114,7 @@ export class AuthService {
 
         // Save token to check
         await this.userRespository.update(user.id, {
-            reset_token: passwordResetToken,
+            resetToken: passwordResetToken,
         });
 
         try {
