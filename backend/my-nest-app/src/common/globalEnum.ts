@@ -1,5 +1,5 @@
 export enum EROLE {
-    PATIENT = "PATEINT",
+    PATIENT = "patient",
     DOCTOR = "DOCTOR",
     HOSPITAL = "HOSPITAL"
 }

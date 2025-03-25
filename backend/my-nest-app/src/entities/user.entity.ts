@@ -1,9 +1,8 @@
 import { EROLE } from "src/common/globalEnum";
-import { Column, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Doctor } from "./doctor.entity";
-import { Prescriptions } from "./prescription.entity";
-import { Hospital } from "./hospital.entity";
-import { Appointment } from "./appointments.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { RequestViewMedicalRecord } from "./request_view_medical_record";
+import { WorkCalender } from "./work_calender.entity";
+import { StaffHospital } from "./staff_hospital.entity";
 
 @Entity('users')
 export class User {
@@ -14,53 +13,45 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({type: 'varchar', length: 256, unique: true, })
+    @Column({ unique: true })
     email: string;
 
-    @Column({type: 'varchar', length: 11, nullable: true,})
-    phone: string;
-
-    @Column({type: "varchar", length: 256, nullable: false})
+    @Column()
     password: string;
 
-    @Column({type: 'varchar', length: 256, nullable: true})
-    full_name: string;
+    @Column({ nullable: true })
+    avatar: string;
 
-    @Column({type: 'varchar', length: 256, nullable: true})
-    address: string;
+    @Column({ nullable: true })
+    resetToken: string;
 
-    @Column({type: 'varchar', length: 256, nullable: true})
-    reset_token: string;
-
-    @Column({type: 'enum', enum: EROLE, default: EROLE.PATIENT })
+    @Column({ type: 'enum', enum: EROLE, default: EROLE.PATIENT })
     role: EROLE;
 
-    @OneToOne(() => Doctor, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-        nullable: true
-    })
-    @JoinColumn({name: "doctor_id"})
-    doctor: Doctor;
 
-    @OneToOne(() => Hospital, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-        nullable: true
-    })
-    @JoinColumn({name: "hospital_id"})
-    hospital: Hospital;
 
-    @OneToMany(() => Prescriptions, precription => precription.user, {
+    // @OneToMany(() => RequestViewMedicalRecord, requestViewMedicalRecord => requestViewMedicalRecord.patient, {
+    //     onDelete: 'SET NULL',
+    //     onUpdate: 'CASCADE'
+    // })
+    // requestViewMedicalRecordPatient: RequestViewMedicalRecord[];
+
+    @OneToMany(() => RequestViewMedicalRecord, requestViewMedicalRecord => requestViewMedicalRecord.doctor, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    requestViewMedicalRecordDoctor: RequestViewMedicalRecord[];
+
+    @OneToMany(() => WorkCalender, workCalender => workCalender.staff, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    prescription: Prescriptions[];
+    workCalender: WorkCalender[];
 
-    @OneToMany(() =>  Appointment, appointment => appointment.user, {
+    @OneToMany(() => StaffHospital, staffHospital => staffHospital.staff, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     })
-    appointment: Appointment[];
+    staffHospital: StaffHospital[];
 
 }

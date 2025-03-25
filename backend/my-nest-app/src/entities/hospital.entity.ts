@@ -1,7 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Appointment } from "./appointments.entity";
-import { Clinic } from "./clinic.entity";
+import { Room } from "./room.entity";
 import { Prescriptions } from "./prescription.entity";
+import { StaffHospital } from "./staff_hospital.entity";
 
 @Entity('hospital')
 export class Hospital {
@@ -30,16 +31,22 @@ export class Hospital {
     })
     appointment: Appointment[];
 
-    @OneToMany(() => Clinic, clinic => clinic.hospital, {
+    @OneToMany(() => Room, room => room.hospital, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
     })
-    clinic: Clinic[];
+    clinic: Room[];
 
     @OneToMany(() => Prescriptions, prescription => prescription.hospital, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
     })
-    prescription: Prescriptions[];
+    prescriptions: Prescriptions[];
+
+    @OneToMany(() => StaffHospital, staffHospital => staffHospital.hospital, {
+        onDelete: "CASCADE",
+        onUpdate: 'CASCADE',
+    })
+    staffHospital: StaffHospital[];
 
 }
