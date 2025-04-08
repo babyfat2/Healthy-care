@@ -1,15 +1,21 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { EROLE } from "../../global/globalEum";
+import { IUser } from "../../type/api";
 
 interface loginResult {
     msg: string;
-    data: { role: EROLE | undefined };
+    data: { 
+        data: IUser;
+        token: {
+            accessToken: string;
+            refreshToken: string;
+        }   
+    };
 }
 
 export const authApi = createApi({
     reducerPath: "authApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: `http://localhost:3000/auth`,
+        baseUrl: import.meta.env.VITE_DOMAIN + `auth`,
         credentials: 'include',
     }),
     tagTypes: ["auth"],

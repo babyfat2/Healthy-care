@@ -1,4 +1,4 @@
-import { ESPECIALTIES } from "src/common/globalEnum";
+import { ESPECIALTIES } from "src/global/globalEnum";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('disease')
@@ -22,7 +22,7 @@ export class Disease {
     @Column({type: 'varchar', length: 256, nullable: true})
     treatment: string;
 
-    @Column({type: 'enum', enum: ESPECIALTIES, default: ESPECIALTIES.NOI})
+    @Column({type: 'enum', enum: ESPECIALTIES, default: ESPECIALTIES.BIOCHEMISTRY})
     specialties: ESPECIALTIES;
 
     @Column({type: 'boolean', default: false})

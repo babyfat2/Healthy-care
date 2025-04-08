@@ -1,12 +1,13 @@
-import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { AuthGuard } from '@nestjs/passport';
-import { EROLE } from 'src/common/globalEnum';
+import { EROLE } from 'src/global/globalEnum';
+import { Reflector } from '@nestjs/core';
 
 
 @Injectable()
-export class JwtGuard extends AuthGuard('jwt') {
-  constructor() {
+export class JwtGuard extends AuthGuard('jwt')  {
+  constructor(private reflector: Reflector) {
     super();
   }
 
@@ -19,7 +20,10 @@ export class JwtGuard extends AuthGuard('jwt') {
     if (!user) {
       throw new UnauthorizedException('Unauthorized');
     }
-    const checkRole = user.position === EROLE.PATIENT || EROLE.DOCTOR || EROLE.HOSPITAL;
+
+    const validRoles = [EROLE.PATIENT, EROLE.CLINICAL_DOCTOR, EROLE.HOSPITAL];
+    const checkRole = validRoles.includes(user.position);
+
     if (!checkRole) {
       throw new UnauthorizedException('Unauthorized access');
     }

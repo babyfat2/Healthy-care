@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Hospital } from "./hospital.entity";
 import { User } from "./user.entity";
+import { ESTATUSWORK } from "src/global/globalEnum";
 
 @Entity('staff_hospital')
 export class StaffHospital {
@@ -11,13 +12,13 @@ export class StaffHospital {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'datetime', nullable: false })
-    work_time: Date;
+    @Column({ type: 'enum', enum: ESTATUSWORK, default: ESTATUSWORK.INVITED })
+    status: ESTATUSWORK;
 
     @Column({ type: 'datetime', nullable: false })
     start_at: Date;
 
-    @Column({ type: 'datetime', nullable: false })
+    @Column({ type: 'datetime', nullable: true })
     end_at: Date;
 
     @Column({ type: 'int', nullable: false })

@@ -1,4 +1,4 @@
-import { EROLE } from "src/common/globalEnum";
+import { EROLE } from "src/global/globalEnum";
 
 export type TPayloadJwt = { 
     id: number; 

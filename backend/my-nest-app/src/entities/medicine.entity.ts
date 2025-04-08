@@ -1,5 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { PrescriptionMedicine } from "./prescription_medicine.entity";
+import { Hospital } from "./hospital.entity";
 
 @Entity('medicines')
 export class Medicine {
@@ -33,4 +34,5 @@ export class Medicine {
         onUpdate: 'CASCADE',
     })
     prescriptionMedicine: PrescriptionMedicine[];
+
 }
