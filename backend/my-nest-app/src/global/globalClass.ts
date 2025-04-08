@@ -1,5 +1,5 @@
 import { HttpException } from "@nestjs/common";
-import { HttpStatusCode } from "./globalEnum";
+import { HttpStatusCode } from "./globalMessage";
 
 export class ResponseData<D> {
     data: D | D[];
@@ -26,3 +26,23 @@ export class ResponseData<D> {
       );
     }
   }
+
+
+  type pagination = {
+    total: number;
+    page: number;
+    row: number;
+  }
+
+  export class PaginationResponse<D> {
+    data: D | D[];
+  
+    pagination: pagination;
+  
+    constructor(data: D | [], pagination: pagination) {
+      this.data = data;
+      this.pagination = pagination;
+      return this;
+    }
+  }
+  

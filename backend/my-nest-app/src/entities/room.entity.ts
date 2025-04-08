@@ -1,6 +1,5 @@
-import { ESPECIALTIES } from "src/common/globalEnum";
+import { EROOM, ESPECIALTIES } from "src/global/globalEnum";
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Doctor } from "./doctor.entity";
 import { Hospital } from "./hospital.entity";
 import { WorkCalender } from "./work_calender.entity";
 import { Schedule } from "./schedule.entity";
@@ -15,8 +14,8 @@ export class Room {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({type: 'varchar', length: 256, nullable: false})
-    name: string;
+    @Column({type: 'varchar', length: 256,  nullable: false})
+    name_building: string;
 
     @Column({type: 'varchar', length: 256, nullable: false})
     room_number: string;
@@ -24,7 +23,10 @@ export class Room {
     @Column({type: 'int',  nullable:  false})
     hospital_id: number;
 
-    @Column({type: 'enum', enum: ESPECIALTIES, default: ESPECIALTIES.NOI})
+    @Column({type: 'enum', enum: EROOM, default: EROOM.CLINICAL})
+    room_type: EROOM;
+
+    @Column({type: 'enum', enum: ESPECIALTIES,  nullable: true})
     specialties: ESPECIALTIES;
 
     @ManyToOne(() => Hospital, hospital => hospital.clinic, {

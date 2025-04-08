@@ -1,8 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Appointment } from "./appointments.entity";
 import { Room } from "./room.entity";
 import { Prescriptions } from "./prescription.entity";
 import { StaffHospital } from "./staff_hospital.entity";
+import { User } from "./user.entity";
+import { Medicine } from "./medicine.entity";
 
 @Entity('hospital')
 export class Hospital {
@@ -24,6 +26,9 @@ export class Hospital {
 
     @Column({type: 'varchar', length: 256, nullable: false})
     email: string;
+
+    @Column({type: 'int'})
+    user_id: number;
 
     @OneToMany(() => Appointment, appointment =>  appointment.hospital, {
         onDelete: 'CASCADE',
@@ -48,5 +53,14 @@ export class Hospital {
         onUpdate: 'CASCADE',
     })
     staffHospital: StaffHospital[];
+
+
+    @OneToOne(() => User, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        nullable: false,
+    })
+    @JoinColumn({name: "user_id"})
+    user: User;
 
 }

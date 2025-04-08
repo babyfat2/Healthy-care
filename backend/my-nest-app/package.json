@@ -21,7 +21,7 @@
     "typeorm": "npm run build && ts-node ./node_modules/typeorm/cli",
     "migration:run": "npm run typeorm migration:run -- -d ./src/configs/typeOrm.config.ts",
     "migration:generate": "npm run typeorm -- -d ./src/configs/typeorm.config.ts migration:generate ./src/migration/%npm_config_name%",
-    "migration:create": "npm run typeorm -- migration:create ./src/migrations/$npm_config_name",
+    "migration:create": "npm run typeorm -- migration:create ./src/migration/$npm_config_name",
     "migration:revert": "npm run typeorm -- -d ./src/configs/typeorm.config.ts migration:revert"
   },
   "dependencies": {
@@ -35,12 +35,14 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/typeorm": "^11.0.0",
     "@types/crypto-js": "^4.2.2",
+    "@types/passport-jwt": "^4.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cross-env": "^7.0.3",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.4.7",
     "mysql2": "^3.12.0",
+    "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "ts-dotenv": "^0.9.1",

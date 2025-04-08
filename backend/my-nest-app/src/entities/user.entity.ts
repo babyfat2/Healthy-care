@@ -1,8 +1,11 @@
-import { EROLE } from "src/common/globalEnum";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { RequestViewMedicalRecord } from "./request_view_medical_record";
+import { EROLE } from "src/global/globalEnum";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { RequestViewMedicalRecord } from "./request_view_medical_record.entity";
 import { WorkCalender } from "./work_calender.entity";
 import { StaffHospital } from "./staff_hospital.entity";
+import { ClinicalDoctor } from "./clinical_doctor.entity";
+import { ParaclinicalDoctor } from "./paraclinical_doctor.entity";
+import { Receptionist } from "./receptionist.entity";
 
 @Entity('users')
 export class User {
@@ -13,28 +16,31 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ unique: true })
+    @Column({ type: "varchar", length: 256,  unique: true })
     email: string;
 
-    @Column()
+    @Column({ type: "varchar", length: 256,})
     password: string;
 
-    @Column({ nullable: true })
+    @Column({ type: "varchar", length: 256, nullable: true })
     avatar: string;
 
-    @Column({ nullable: true })
+    @Column({ type: "varchar", length: 256, nullable: true })
     resetToken: string;
+
+    @Column({ type: "varchar", length: 256, nullable: true })
+    full_name: string;
 
     @Column({ type: 'enum', enum: EROLE, default: EROLE.PATIENT })
     role: EROLE;
 
 
 
-    // @OneToMany(() => RequestViewMedicalRecord, requestViewMedicalRecord => requestViewMedicalRecord.patient, {
-    //     onDelete: 'SET NULL',
-    //     onUpdate: 'CASCADE'
-    // })
-    // requestViewMedicalRecordPatient: RequestViewMedicalRecord[];
+    @OneToMany(() => RequestViewMedicalRecord, requestViewMedicalRecord => requestViewMedicalRecord.patient, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+    })
+    requestViewMedicalRecordPatient: RequestViewMedicalRecord[];
 
     @OneToMany(() => RequestViewMedicalRecord, requestViewMedicalRecord => requestViewMedicalRecord.doctor, {
         onDelete: 'SET NULL',
@@ -53,5 +59,29 @@ export class User {
         onUpdate: 'CASCADE'
     })
     staffHospital: StaffHospital[];
+
+    @OneToOne(() => ClinicalDoctor, {
+        nullable: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    })
+    @JoinColumn({name: "clinical_doctor_id"})
+    clinical_doctor?: ClinicalDoctor;
+
+    @OneToOne(() => ParaclinicalDoctor, {
+        nullable: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    })
+    @JoinColumn({name: "paraclinical_doctor_id"})
+    paraclinical_doctor?: ParaclinicalDoctor;
+
+    @OneToOne(() => Receptionist, {
+        nullable: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    })
+    @JoinColumn({ name: "receptionist_id"})
+    receptionist?: Receptionist;
 
 }

@@ -2,69 +2,97 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./screen/auth/Login";
 import ForgotPassword from "./screen/auth/ForgotPassword ";
 import { useAppSelector } from "./redux/hook/hook";
-import { EROLE } from "./global/globalEum";
 import ChangePassword from "./screen/auth/ChangePassword";
 import Sidebar from "./component/SideBar";
 import { Home as HomeIcon, Settings, User } from "lucide-react";
 import { MenuItem } from "./global/golbalObject";
-import Home from "./screen/home/Home";
-// import Home from "./screen/home/Home";
+import Doctor from "./screen/hospital/Doctor";
+import Room from "./screen/hospital/Room";
+import Medicine from "./screen/hospital/Medicine";
+import DoctorDetail from "./screen/hospital/DoctorDetail";
+import NotificationComponent from "./component/notification/notification";
+import { ToastContainer } from "react-toastify";
+import { EROLE } from "./type/enum";
+import Header from "./component/Header";
+import RoomDetail from "./screen/hospital/RoomDetail";
+import HomeDoctor from "./screen/Doctor/HomeDoctor";
+import Patient from "./screen/Doctor/Pateint";
 
 
 function App() {
-  const isLogin = useAppSelector((status) => status.route.isLogin);
-  const role = useAppSelector((status) => status.route.role);
+  const isLogin = useAppSelector((status) => status.user.isLogin);
+  const role = useAppSelector((status) => status.user.role);
 
-  // if (isLogin) {
-  if (role === EROLE.DOCTOR) {
+
+
+  if (isLogin) {
+  if (role === EROLE.CLINICAL_DOCTOR) {
     const menuItems: MenuItem[] = [
-      { name: "Home", icon: <HomeIcon size={20} />, link: "#" },
-      { name: "Profile", icon: <User size={20} />, link: "/home" },
-      { name: "Settings", icon: <Settings size={20} />, link: "#" },
+      { name: "Trang chủ", icon: <HomeIcon size={20} />, link: "" },
+      { name: "Bệnh nhân", icon: <Settings size={20} />, link: "/pateint" },
       { name: "Setti", icon: <Settings size={20} />, link: "#" },
     ]
     return (
-      <div className="h-screen w-full flex items-center justify-center">
-        <Sidebar menuItems={menuItems} />
-        <Routes>
-          <Route path="/home" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/change-password/:token" element={<ChangePassword />} />
-        </Routes>
+      <div className="h-screen w-full flex flex-row">
+        <NotificationComponent />
+        <ToastContainer />
+        <div className="h-screen w-64 bg-gray-800 text-white hidden lg:block">
+          <Sidebar menuItems={menuItems} />
+        </div>
+
+        <div className="flex-1 h-screen overflow-y-auto">
+          <Header />
+          <div className="flex-1 h-auto">
+          <Routes>
+            <Route path="" element={<HomeDoctor />} />
+            <Route path="/pateint" element={<Patient />} />
+          </Routes>
+          </div>
+        </div>
       </div>
     );
   } else {
     const menuItems = [
-      { name: "Home", icon: <HomeIcon size={20} />, link: "/home" },
-      { name: "Appointment", icon: <User size={20} />, link: "/home" },
+      { name: "Doctor", icon: <HomeIcon size={20} />, link: "/doctor" },
+      { name: "Room", icon: <User size={20} />, link: "/room" },
       { name: "Settings", icon: <Settings size={20} />, link: "/forgot-password" },
-      { name: "Setti", icon: <Settings size={20} />, link: "/home" },
+      { name: "Medicine", icon: <Settings size={20} />, link: "/medicine" },
     ]
     return (
       <div className="h-screen w-full flex flex-row">
-        <Sidebar menuItems={menuItems} />
-        <div className="h-[100%] w-full">
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/home1" element={<Home />} />
-          <Route path="/home2" element={<Home />} />
-        </Routes>
+        <NotificationComponent />
+        <ToastContainer />
+        <div className="h-screen w-64 bg-gray-800 text-white hidden lg:block">
+          <Sidebar menuItems={menuItems} />
+        </div>
+
+        <div className="flex-1 h-screen overflow-y-auto">
+          <Header />
+          <div className="flex-1 h-auto">
+          <Routes>
+            <Route path="/doctor" element={<Doctor />} />
+            <Route path="/room" element={<Room />} />
+            <Route path="/medicine" element={<Medicine />} />
+            <Route path="/doctor/:id" element={<DoctorDetail />} />
+            <Route path="/room/:id" element={<RoomDetail />} />
+          </Routes>
+          </div>
         </div>
       </div>
     )
   }
-  // } else {
-  //   return (
-  //     <div className="h-screen w-full flex items-center justify-center">
-  //       <Routes>
-  //         <Route path="/login" element={<Login />} />
-  //         <Route path="/forgot-password" element={<ForgotPassword />} />
-  //         <Route path="/change-password/:token" element={<ChangePassword />} />
-  //         <Route path="*" element={<Login />} />
-  //       </Routes>
-  //     </div>
-  //   );
-  // }
+  } else {
+    return (
+      <div className="h-screen w-full flex items-center justify-center">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/change-password/:token" element={<ChangePassword />} />
+          <Route path="*" element={<Login />} />
+        </Routes>
+      </div>
+    );
+  }
 }
 
 export default App;

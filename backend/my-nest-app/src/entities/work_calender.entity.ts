@@ -11,13 +11,13 @@ export class WorkCalender {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({type: 'datetime', nullable: false })
-    work_time: Date;
+    @Column({type: 'date', nullable: false })
+    work_time: string;
 
-    @Column({type: 'datetime', nullable: false })
+    @Column({type: 'datetime', nullable: false , default: () => 'CURRENT_TIMESTAMP'})
     created_at: Date;
 
-    @Column({type: 'datetime', nullable: false })
+    @Column({type: 'datetime', nullable: true , onUpdate: 'CURRENT_TIMESTAMP'  })
     updated_at: Date;
 
     @Column({ type: 'int' , nullable: true})

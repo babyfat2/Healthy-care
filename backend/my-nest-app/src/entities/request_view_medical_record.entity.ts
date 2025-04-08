@@ -19,11 +19,11 @@ export class RequestViewMedicalRecord {
     @Column({ type: 'int' , nullable: true})
     doctor_id: number;
 
-    // @ManyToOne(() => User, user => user.requestViewMedicalRecordPatient, {
-    //     onDelete: 'SET NULL',
-    //     onUpdate: 'CASCADE'})
-    // @JoinColumn({name: 'patient_id'})
-    // patient: User;
+    @ManyToOne(() => User, user => user.requestViewMedicalRecordPatient, {
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'})
+    @JoinColumn({name: 'patient_id'})
+    patient: User;
 
     @ManyToOne(() => User, user => user.requestViewMedicalRecordDoctor, {
         onDelete: 'SET NULL',

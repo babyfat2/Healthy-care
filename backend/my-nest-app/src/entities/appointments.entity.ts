@@ -1,4 +1,4 @@
-import { ESTATUS } from "src/common/globalEnum";
+import { ESTATUS } from "src/global/globalEnum";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Hospital } from "./hospital.entity";

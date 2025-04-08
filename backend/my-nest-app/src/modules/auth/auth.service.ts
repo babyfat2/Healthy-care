@@ -4,12 +4,12 @@ import { User } from 'src/entities/user.entity';
 import { In, Repository } from 'typeorm';
 import { LoginDto } from './dto/auth.dto';
 import { ResponseData } from 'src/global/globalClass';
-import { HttpStatusCode, HttpStatusMessage } from 'src/global/globalEnum';
+import { HttpStatusCode, HttpStatusMessage } from 'src/global/globalMessage';
 import { TPayloadJwt } from './auth.interface';
 import * as crypto from 'crypto';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from 'src/configs/auth.config';
-import { EROLE } from 'src/common/globalEnum';
+import { EROLE } from 'src/global/globalEnum';
 import { MailResetPasswordDto, VerifyTokenDto } from './dto/send-email.dto';
 import { JwtPayload } from 'src/configs/jwt/jwtPayload.type';
 import { MailerService } from '@nestjs-modules/mailer';
@@ -54,18 +54,22 @@ export class AuthService {
                 HttpStatusMessage.USER_NOT_FOUND,
             )
         }
-
+        
+        const data = {
+            role: user.role,
+            full_name: user.full_name,
+        }
         const token = this.createToken(user.email, user.id, user.role);
 
         return new ResponseData(
-            { role: user?.role, token: token },
+            { data: data, token: token },
             HttpStatusCode.SUCCESS,
             HttpStatusMessage.LOGIN_SUCCESS,
         )
     }
 
     async loginWeb(userInfor: LoginDto) {
-        const user = await this.userRespository.findOneBy({ email: userInfor.username, role: In([EROLE.DOCTOR,EROLE.HOSPITAL])})
+        const user = await this.userRespository.findOneBy({ email: userInfor.username, role: In([EROLE.CLINICAL_DOCTOR,EROLE.HOSPITAL])})
 
         if (!user) {
             return new ResponseData(
@@ -85,8 +89,13 @@ export class AuthService {
 
         const token = this.createToken(user.email, user.id, user.role);
 
+        const data = {
+            role: user.role,
+            full_name: user.full_name,
+        }
+
         return new ResponseData(
-            { role: user?.role, token: token },
+            { data: data, token: token },
             HttpStatusCode.SUCCESS,
             HttpStatusMessage.LOGIN_SUCCESS,
         )
@@ -145,7 +154,6 @@ export class AuthService {
 
 
     async verifyToken(token: VerifyTokenDto) {
-        console.log(token.token);
         try {
             // Decodes and verifies the JWT token using the provided secret key.
             const decoded = this.jwtService.verify(token.token, {
