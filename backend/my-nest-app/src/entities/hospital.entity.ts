@@ -27,8 +27,15 @@ export class Hospital {
     @Column({type: 'varchar', length: 256, nullable: false})
     email: string;
 
+    @Column('double') // hoặc float
+    latitude: number;
+  
+    @Column('double')
+    longitude: number;
+
     @Column({type: 'int'})
     user_id: number;
+    
 
     @OneToMany(() => Appointment, appointment =>  appointment.hospital, {
         onDelete: 'CASCADE',

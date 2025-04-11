@@ -23,14 +23,18 @@ export class DoctorService {
 
     }
 
+    // lấy thông tin phòng khám hôm nay
     async getMyWork(request: any) {
+        // lấy ngày hiện tại
         const today = new Date(Date.now()).toISOString().split('T')[0];
 
+        // lấy thông tin về công việc
         const work_calender = await this.workCalenderRepository.findOneBy({
             staff_id: request.user.id,
             work_time: today,
         })
 
+        // nếu ko có trả về mảng rỗng
         if (!work_calender) {
             return new ResponseData(
                 null,
@@ -39,14 +43,22 @@ export class DoctorService {
             )
         } 
 
+        // lấy thông tin phòng làm việc
         const room = await this.roomRepository.findOneBy({
             id : work_calender.room_id
         })
 
+        // trả về thông báo lấy thông tin việc làm thành công
         return new ResponseData(
             room,
             HttpStatusCode.SUCCESS,
             "Lấy thông tin về lịch làm việc thành công",
         )
+    }
+
+
+    // lấy danh sách bệnh nhân cần khám hôm nay
+    async getListPateint(request: any) {
+        
     }
 }

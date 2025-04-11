@@ -2,8 +2,8 @@ import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
-import Home from './src/screen/Home';
 import { NavigationContainer } from '@react-navigation/native';
+import Screen from './src/screen/Screen';
 
 const persistor = persistStore(store);
 
@@ -12,7 +12,7 @@ export default function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <NavigationContainer>
-          <Home />
+          <Screen />
         </NavigationContainer>
       </PersistGate>
     </Provider>

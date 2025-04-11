@@ -45,7 +45,7 @@ export class AuthService {
     }
 
     async login(userInfor: LoginDto) {
-        const user = await this.userRespository.findOneBy({ email: userInfor.username, })
+        const user = await this.userRespository.findOneBy({ email: userInfor.username, role: EROLE.PATIENT })
 
         if (!user) {
             return new ResponseData(
@@ -56,7 +56,6 @@ export class AuthService {
         }
         
         const data = {
-            role: user.role,
             full_name: user.full_name,
         }
         const token = this.createToken(user.email, user.id, user.role);

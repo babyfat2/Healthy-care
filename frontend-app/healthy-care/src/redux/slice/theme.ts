@@ -9,27 +9,17 @@ const theme = createSlice({
     name: "theme",
     initialState: {
         darkmode: false,
-        fontSize: 0,
+        fontSize: 12,
     }  as Theme,
     reducers: {
         changeDarkMode: (state) => {
             state.darkmode = !state.darkmode; 
         },
-        increaseFontSize: (state) => {
-            if (state.fontSize < 5) {
-                state.fontSize += 1;
-            }
-        },
-        decreaseFontSize: (state) => {
-            if (state.fontSize > -5) {
-                state.fontSize -= 1;
-            }
-        },
-        resetFontSize: (state) => {
-            state.fontSize = 0;
+        changeFontSize: (state, action) => {
+                state.fontSize = action.payload.fontSize;
         },
     },
 })
 
 export default theme.reducer;
-export const { changeDarkMode, increaseFontSize, decreaseFontSize, resetFontSize } = theme.actions;
+export const { changeDarkMode, changeFontSize } = theme.actions;

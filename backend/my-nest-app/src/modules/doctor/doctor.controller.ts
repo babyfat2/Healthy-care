@@ -18,5 +18,13 @@ export class DoctorController {
     return this.doctorService.getMyWork(request);
   }
 
+  @Get('/pateint')
+  @HttpCode(HttpStatus.OK)
+  async getPateint(
+    @Request() request: any
+  ) {
+    return this.doctorService.getMyWork(request);
+  }
+
 
 }
