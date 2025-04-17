@@ -7,13 +7,12 @@ import { PasswordInput } from '../../component/input/PasswordInput';
 import { useLoginMutation } from '../../redux/api/auth';
 import {  useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../type/navigation';
+import { LoginNavigationProp } from '../../type/navigation';
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 function Login() {
     const { styles } = useStyles(createStyles);
     const [login] = useLoginMutation();
-    const navigation = useNavigation<NavigationProp>();
+    const navigation = useNavigation<LoginNavigationProp>();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -49,6 +48,7 @@ function Login() {
         login({ username: email, password })
             .unwrap()
             .then(res => {
+                console.log(res);
             })
             .catch(err => {
                 setGeneralError('Email hoặc mật khẩu không chính xác.');

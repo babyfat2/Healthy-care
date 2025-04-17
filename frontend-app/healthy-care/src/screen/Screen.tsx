@@ -1,9 +1,10 @@
+
 import AuthNavigation from '../navigation/AuthNavigation';
 import MainNavigation from '../navigation/MainNavigation';
+import TabNavigation from '../navigation/TabNavigation';
 import { useAppSelector } from '../redux/hook';
 import FirstScreen from './FirstScreen';
-import ChangeColorAndSize from './Setting/ChangeColorAndSize';
-import Login from './auth/Login';
+
 
 function Screen() {
     const is_first = useAppSelector((state) => state.route.is_first);

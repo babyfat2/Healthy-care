@@ -13,11 +13,12 @@ import theme from "./slice/theme";
 import route from "./slice/route";
 import { authApi } from "./api/auth";
 import user from "./slice/user";
+import { hospitalApi } from "./api/hospital";
 
 const persistConfig = {
     key: "root",
     storage: AsyncStorage,
-    whitelist: ["theme", "route", "user"],
+    whitelist: [ "route", "user", "theme"],
 };
 
 const reducer = combineReducers({
@@ -25,6 +26,7 @@ const reducer = combineReducers({
     route,
     user,
     [authApi.reducerPath] : authApi.reducer,
+    [hospitalApi.reducerPath] : hospitalApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
@@ -39,6 +41,7 @@ export const store = configureStore({
             },
         })
         .concat(authApi.middleware)
+        .concat(hospitalApi.middleware),
 
 });
 

@@ -15,7 +15,7 @@ interface loginResult {
 export const authApi = createApi({
     reducerPath: "authApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://192.168.1.48:3000/" + `auth`,
+        baseUrl:  process.env.EXPO_PUBLIC_API_URL +  `auth`,
         credentials: 'include',
     }),
     tagTypes: ["auth"],

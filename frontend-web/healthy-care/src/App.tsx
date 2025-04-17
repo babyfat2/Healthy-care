@@ -16,7 +16,7 @@ import { EROLE } from "./type/enum";
 import Header from "./component/Header";
 import RoomDetail from "./screen/hospital/RoomDetail";
 import HomeDoctor from "./screen/Doctor/HomeDoctor";
-import Patient from "./screen/Doctor/Pateint";
+import Patient from "./screen/Doctor/patient";
 
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
   if (role === EROLE.CLINICAL_DOCTOR) {
     const menuItems: MenuItem[] = [
       { name: "Trang chủ", icon: <HomeIcon size={20} />, link: "" },
-      { name: "Bệnh nhân", icon: <Settings size={20} />, link: "/pateint" },
+      { name: "Bệnh nhân", icon: <Settings size={20} />, link: "/patient" },
       { name: "Setti", icon: <Settings size={20} />, link: "#" },
     ]
     return (
@@ -45,7 +45,7 @@ function App() {
           <div className="flex-1 h-auto">
           <Routes>
             <Route path="" element={<HomeDoctor />} />
-            <Route path="/pateint" element={<Patient />} />
+            <Route path="/patient" element={<Patient />} />
           </Routes>
           </div>
         </div>

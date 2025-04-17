@@ -2,9 +2,9 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from '../screen/auth/Login';
 import Register from '../screen/auth/Register';
-import { RootStackParamList } from '../type/navigation';
+import { AuthRootStackParamList } from '../type/navigation';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<AuthRootStackParamList>();
 
 export default function AuthNavigation() {
   return (
