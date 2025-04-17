@@ -23,6 +23,9 @@ export class Appointment {
     @Column({type: 'datetime', nullable: false})
     appointment_time: Date;
 
+    @Column({type: 'int', nullable: true})
+    stt: number;
+
     @Column({type: 'enum', enum: ESTATUS, default: ESTATUS.PENDING})
     status: ESTATUS;
 

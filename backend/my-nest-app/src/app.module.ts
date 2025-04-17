@@ -11,7 +11,8 @@ import { MailModule } from './modules/mail/mail.module';
 import { DoctorModule } from './modules/doctor/doctor.module';
 import { HospitalModule } from './modules/hospital/hospital.module';
 import { MedicineModule } from './modules/medicine/medicine.module';
-import { PateintModule } from './modules/pateint/pateint.module';
+import { PatientModule } from './modules/pateint/patient.module';
+
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { PateintModule } from './modules/pateint/pateint.module';
     DoctorModule,
     HospitalModule,
     MedicineModule,
-    PateintModule,
+    PatientModule,
   ],
   controllers: [AppController],
   providers: [AppService],

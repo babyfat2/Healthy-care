@@ -58,7 +58,7 @@ export class DoctorService {
 
 
     // lấy danh sách bệnh nhân cần khám hôm nay
-    async getListPateint(request: any) {
+    async getListpatient(request: any) {
         
     }
 }

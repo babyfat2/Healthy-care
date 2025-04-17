@@ -18,9 +18,9 @@ export class DoctorController {
     return this.doctorService.getMyWork(request);
   }
 
-  @Get('/pateint')
+  @Get('/patient')
   @HttpCode(HttpStatus.OK)
-  async getPateint(
+  async getpatient(
     @Request() request: any
   ) {
     return this.doctorService.getMyWork(request);
