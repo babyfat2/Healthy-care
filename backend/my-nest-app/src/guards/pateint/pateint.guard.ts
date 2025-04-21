@@ -7,43 +7,45 @@ import { PatientService } from 'src/modules/pateint/patient.service';
 @Injectable()
 export class PatientGuard extends AuthGuard('jwt') {
   constructor(private readonly patientService: PatientService) {
-      super();
-    }
-  
-    async canActivate(context: ExecutionContext): Promise<boolean> {
-      const request = context.switchToHttp().getRequest();
-      const user = request.user;
-  
-      if (!user) {
-        throw new UnauthorizedException('Unauthorized');
-      }
-  
-      // ✅ Kiểm tra quyền truy cập
-      if (user.role !== EROLE.PATIENT) {
-        throw new UnauthorizedException('Unauthorized access');
-      }
-      
-      try {
-        //Lấy thông tin bệnh nhân từ database
-        const patient = await this.patientService.getpatientById(user.id);
-        if (!patient) {
-          throw new UnauthorizedException('No patient found');
-        }
-  
-        // Gán thông tin id bệnh nhân gán vào `request`
-        request.patient_id = patient.id;
-        return true;
-      } catch (error) {
-        console.error("❌ Error fetching hospital:", error);
-        throw new UnauthorizedException('Error retrieving hospital info');
-      }
+    super();
+  }
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
+    const user = request.user;
+
+    if (!user) {
+      throw new UnauthorizedException('Unauthorized');
     }
 
-        handleRequest<TUser = any>(err: any, user: TUser): TUser {
-          if (err || !user) {
-            throw err || new UnauthorizedException('Unauthorized');
-          }
-    
-          return user;
-        }
+    // ✅ Kiểm tra quyền truy cập
+    if (user.role !== EROLE.PATIENT) {
+      throw new UnauthorizedException('Unauthorized access');
+    }
+
+    if (!user.pateint_id) {
+      throw new UnauthorizedException('Yêu cầu xác thực tài khoản để thực hiện việc này');
+    }
+    try {
+
+      const patient = await this.patientService.getpatientById(user.pateint_id);
+
+      if (!patient) {
+        throw new UnauthorizedException('Yêu cầu xác thực tài khoản để thực hiện việc này');
+      }
+
+      request.patient_id = patient.id;
+      return true;
+    } catch (e) {
+      throw new UnauthorizedException('Yêu cầu xác thực tài khoản để thực hiện việc này');
+    }
+  }
+
+  handleRequest<TUser = any>(err: any, user: TUser): TUser {
+    if (err || !user) {
+      throw err || new UnauthorizedException('Unauthorized');
+    }
+
+    return user;
+  }
 }

@@ -12,6 +12,8 @@ import { DoctorModule } from './modules/doctor/doctor.module';
 import { HospitalModule } from './modules/hospital/hospital.module';
 import { MedicineModule } from './modules/medicine/medicine.module';
 import { PatientModule } from './modules/pateint/patient.module';
+import { ReceptionModule } from './modules/reception/reception.module';
+import { AppointmentModule } from './modules/appointment/appointment.module';
 
 
 @Module({
@@ -29,6 +31,8 @@ import { PatientModule } from './modules/pateint/patient.module';
     HospitalModule,
     MedicineModule,
     PatientModule,
+    ReceptionModule,
+    AppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

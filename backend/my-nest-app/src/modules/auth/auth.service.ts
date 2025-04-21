@@ -1,7 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
-import { In, Repository } from 'typeorm';
+import { DataSource, In, Repository } from 'typeorm';
 import { LoginDto } from './dto/auth.dto';
 import { ResponseData } from 'src/global/globalClass';
 import { HttpStatusCode, HttpStatusMessage } from 'src/global/globalMessage';
@@ -13,14 +13,20 @@ import { EROLE } from 'src/global/globalEnum';
 import { MailResetPasswordDto, VerifyTokenDto } from './dto/send-email.dto';
 import { JwtPayload } from 'src/configs/jwt/jwtPayload.type';
 import { MailerService } from '@nestjs-modules/mailer';
+import { RegisterDto } from './dto/register.dto';
+import { Patient } from 'src/entities/patient.entity';
 
 @Injectable()
 export class AuthService {
     constructor(
         @InjectRepository(User)
         private readonly userRespository: Repository<User>,
+        @InjectRepository(Patient)
+        private readonly pateintRespository: Repository<Patient>,
         private readonly jwtService: JwtService,
         private readonly mailerService: MailerService,
+        @InjectDataSource()
+    private readonly dataSource: DataSource,
     ) {
 
     }
@@ -67,8 +73,36 @@ export class AuthService {
         )
     }
 
+    async register(body: RegisterDto) {
+        // Kiểm tra email đã tồn tại
+        const existingUser = await this.userRespository.findOne({
+            where: { email: body.username },
+        });
+
+        if (existingUser) {
+            return new ResponseData(
+                null,
+                HttpStatus.CONFLICT,
+                'Email đã tồn tại',
+            );
+        }
+        await this.userRespository.save({
+            email: body.username,
+            full_name: body.full_name,
+            password: body.password,
+            role: body.role,
+        });
+
+
+        return new ResponseData(
+            null,
+            HttpStatus.CREATED,
+            'Đăng ký thành công',
+        );
+    }
+
     async loginWeb(userInfor: LoginDto) {
-        const user = await this.userRespository.findOneBy({ email: userInfor.username, role: In([EROLE.CLINICAL_DOCTOR,EROLE.HOSPITAL])})
+        const user = await this.userRespository.findOneBy({ email: userInfor.username, role: In([EROLE.CLINICAL_DOCTOR,EROLE.HOSPITAL, EROLE.RECEPTION, EROLE.PARACLINICAL_DOCTOR])})
 
         if (!user) {
             return new ResponseData(

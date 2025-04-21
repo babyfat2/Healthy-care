@@ -8,6 +8,7 @@ import { PaginationResponse, ResponseData } from 'src/global/globalClass';
 import { HttpStatusCode, HttpStatusMessage } from 'src/global/globalMessage';
 import { BookingDto } from './dto/Booking.dto';
 import { Appointment } from 'src/entities/appointments.entity';
+import { User } from 'src/entities/user.entity';
 
 @Injectable()
 export class PatientService {
@@ -18,12 +19,14 @@ export class PatientService {
         private readonly hospitalRepository: Repository<Hospital>,
         @InjectRepository(Appointment)
         private readonly appointmentRepository: Repository<Appointment>,
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>,
     ) { }
 
     async getpatientById(id: number) {
         return await this.patientRepository.findOne({
             where: {
-                user_id: id,
+                id: id,
             },
             select: {
                 id: true,
@@ -127,9 +130,23 @@ export class PatientService {
             )
         }
 
+        let patient_id : number = -1;
+        if (request.user.patient_id) {
+            patient_id = request.user.pateint_id
+        } else {
+            const patient = await this.patientRepository.save({
+            })
+            await this.userRepository.update({
+                    id: request.user.id
+                }, 
+                {
+                patient_id: patient.id
+                })
+            patient_id = patient.id;
+        }
         const appointmment = await this.appointmentRepository.findBy({
-            patient_id: request.patient_id,
-            appointment_time: body.appointment_time, 
+            patient_id: request.user.patient_id,
+            appointment_time: body.appointment_time,
         })
 
         if (appointmment.length > 1) {
@@ -140,11 +157,20 @@ export class PatientService {
             )
         }
 
+        const stt = await this.appointmentRepository.count({
+            where: {
+                appointment_time: body.appointment_time,
+                hospital_id: body.hospital_id,
+            }
+        })
+
         const save_appointment = await this.appointmentRepository.save({
-            patient_id: request.patient_id,
+            patient_id: patient_id,
             hospital_id: body.hospital_id,
+            phone: body.phone,
             appointment_time: body.appointment_time,
             description: body.description,
+            stt: stt + 1,
         })
 
         return new ResponseData(

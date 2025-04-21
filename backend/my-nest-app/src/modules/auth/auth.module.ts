@@ -8,10 +8,11 @@ import { jwtConstants } from 'src/configs/auth.config';
 import { JwtStrategy } from 'src/strategy/jwt-strategy';
 import { UserModule } from '../user/user.module';
 import { PassportModule } from '@nestjs/passport';
+import { Patient } from 'src/entities/patient.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Patient]),
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: { expiresIn: jwtConstants.expiredTime },

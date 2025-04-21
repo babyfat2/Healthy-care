@@ -8,35 +8,32 @@ export class Patient {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "varchar", length: 256 ,nullable: false,unique: true, default: 0 })
+  @Column({ type: "varchar", length: 256 ,nullable: true,unique: true, default: null })
   citizen_identification_id: string;
 
-  @Column({ type: "varchar", length: 256, nullable: false, default: 0})
+  @Column({ type: "varchar", length: 256, nullable: true, default: null})
   full_name: string;
 
-  @Column({type: 'varchar', length: 256, nullable: false, default: 0})
+  @Column({type: 'varchar', length: 256, nullable: true, default: null})
   address: string;
 
-  @Column({ type: "varchar", length: 512, nullable: true })
+  @Column({ type: "varchar", length: 512, nullable: true , default: null})
   hometown: string;
 
-  @Column({type: 'date', nullable: true })
+  @Column({type: 'date', nullable: true, default: null })
   birthday: Date;
 
-  @Column({ type: "varchar", length: 256, nullable: true })
+  @Column({ type: "varchar", length: 256, nullable: true , default: null})
   ethnicity: string; // dân tộc
 
-  @Column({ type: "date", nullable: true })
+  @Column({ type: "date", nullable: true , default: null})
   issued_date: Date;
 
-  @Column({ type: "varchar", length: 256, nullable: true })
+  @Column({ type: "varchar", length: 256, nullable: true , default: null})
   issued_place: string;
 
-  @Column({ type: 'varchar', length: 256, nullable: false, default: 0 })
+  @Column({ type: 'varchar', length: 256, nullable: true, default: null })
   phone: string;
-
-  @Column({ type: 'int', nullable: false})
-  user_id: number;
 
 
   @OneToMany(() => Appointment, appointment => appointment.patient, {
@@ -51,10 +48,9 @@ export class Patient {
   })
   prescriptions: Prescriptions[];
 
-  @OneToOne(() => User, {
+  @OneToMany(() => User, user => user.patient ,{
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
   })
-  @JoinColumn({name: "user_id"})
-  user: User;
+  user: User[];
 }

@@ -51,7 +51,7 @@ export class Hospital {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
     })
-    clinic: Room[];
+    room: Room[];
 
     @OneToMany(() => Prescriptions, prescription => prescription.hospital, {
         onDelete: 'CASCADE',

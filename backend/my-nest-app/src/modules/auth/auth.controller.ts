@@ -2,6 +2,7 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put, Query } 
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/auth.dto';
 import { MailResetPasswordDto, VerifyTokenDto } from './dto/send-email.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -15,6 +16,14 @@ export class AuthController {
     @Body() inforUser: LoginDto,
   ) {
     return this.authService.login(inforUser);
+  }
+
+  @Post('/register')
+  @HttpCode(HttpStatus.OK)
+  async register(
+    @Body() body: RegisterDto,
+  ) {
+    return this.authService.register(body);
   }
 
   @Post('/login-web')

@@ -27,7 +27,6 @@ export class PatientController {
     return this.patientService.getDetailHospital(param.id);
   }
 
-  @UseGuards(PatientGuard)
   @Post('/hospital/booking')
   @HttpCode(HttpStatus.OK)
   async bookingHospital(

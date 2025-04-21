@@ -1,4 +1,4 @@
-import { ESTATUS } from "src/global/globalEnum";
+import { ESTATUS, ESTATUSAPOINTMENT } from "src/global/globalEnum";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Hospital } from "./hospital.entity";
@@ -20,14 +20,23 @@ export class Appointment {
     @Column({type: 'int', nullable: false})
     hospital_id: number;
 
-    @Column({type: 'datetime', nullable: false})
+    @Column({type: 'date', nullable: false})
     appointment_time: Date;
 
     @Column({type: 'int', nullable: true})
     stt: number;
 
-    @Column({type: 'enum', enum: ESTATUS, default: ESTATUS.PENDING})
-    status: ESTATUS;
+    @Column({type: 'text', nullable: true})
+    description: string;
+
+    @Column({type: 'varchar', length: 200, nullable: true})
+    name: string; // số liên lạc với người bệnh
+
+    @Column({type: 'varchar', length: 20, nullable: true})
+    phone: string; // số liên lạc với người bệnh
+
+    @Column({type: 'enum', enum: ESTATUSAPOINTMENT, default: ESTATUSAPOINTMENT.PENDING})
+    status: ESTATUSAPOINTMENT;
 
     @ManyToOne(() => Patient, patient => patient.appointment,{
         onDelete: 'CASCADE',
