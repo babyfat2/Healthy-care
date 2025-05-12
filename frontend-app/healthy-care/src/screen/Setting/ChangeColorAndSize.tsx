@@ -3,7 +3,7 @@ import useStyles from '../../style/useStyles';
 import { IColor } from '../../style/color';
 import { ISize } from '../../style/size';
 import { useAppDispatch } from '../../redux/hook';
-import { changeDarkMode, decreaseFontSize, increaseFontSize } from '../../redux/slice/theme';
+import { changeDarkMode} from '../../redux/slice/theme';
 
 
 function ChangeColorAndSize() {
@@ -15,18 +15,11 @@ function ChangeColorAndSize() {
     const buttonChangeColor = () => {
         dispatch(changeDarkMode());
     }
-    const buttonChangeSize = () => {
-        dispatch(decreaseFontSize());
-    }
-    const buttonChangeSizeA = () => {
-        dispatch(increaseFontSize());
-    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.textabc}>Open up App.tsx to start working on your app!</Text>
             <Text style={styles.textabc} onPress={buttonChangeColor}>drakMode</Text>
-            <Text style={styles.textabc} onPress={buttonChangeSize}>aaa</Text>
-            <Text style={styles.textabc} onPress={buttonChangeSizeA}>bb</Text>
         </View>
     );
 }

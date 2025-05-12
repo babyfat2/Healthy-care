@@ -9,6 +9,7 @@ import { HttpStatusCode, HttpStatusMessage } from 'src/global/globalMessage';
 import { BookingDto } from './dto/Booking.dto';
 import { Appointment } from 'src/entities/appointments.entity';
 import { User } from 'src/entities/user.entity';
+import { Prescriptions } from 'src/entities/prescription.entity';
 
 @Injectable()
 export class PatientService {
@@ -21,6 +22,8 @@ export class PatientService {
         private readonly appointmentRepository: Repository<Appointment>,
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
+        @InjectRepository(Prescriptions)
+        private readonly prescriptionRepository: Repository<Prescriptions>,
     ) { }
 
     async getpatientById(id: number) {
@@ -42,6 +45,7 @@ export class PatientService {
                 "id",
                 "name",
                 "address",
+                "avatar"
             ]);
 
         // Tìm kiếm theo tên hoặc địa chỉ
@@ -171,12 +175,85 @@ export class PatientService {
             appointment_time: body.appointment_time,
             description: body.description,
             stt: stt + 1,
+            user_id: request.user.id
         })
 
         return new ResponseData(
             save_appointment,
             HttpStatusCode.SUCCESS,
             "Bạn đã đặt lịch khám thành công",
+        )
+    }
+
+    async getPrescription(id: string) {
+        const prescription = await this.prescriptionRepository
+            .createQueryBuilder("prescription")
+            .leftJoinAndSelect("prescription.prescriptionMedicine", "prescriptionMedicine")
+            .leftJoinAndSelect("prescriptionMedicine.dosageSchedules", "dosageSchedules")
+            .leftJoinAndSelect("prescriptionMedicine.medicine", "medicine")
+            .where("prescription.id = :id", { id })
+            .getOne();
+
+        if (!prescription) {
+            return new ResponseData(
+                null,
+                HttpStatusCode.NOT_FOUND,
+                "Đơn thuốc không tồn tại",
+            )
+        }
+
+        return new ResponseData(
+            prescription,
+            HttpStatusCode.SUCCESS,
+            "Lấy đơn thuốc thành công",
+        )
+    }
+
+    async getMedical(request: any) {
+        const appointmments = await this.appointmentRepository
+        .createQueryBuilder("appointments")
+        .leftJoinAndSelect("appointments.hospital", "hospital")
+        .where("appointments.user_id = :id", { id: request.user.id })
+        .getMany();
+
+        return new ResponseData(
+            appointmments,
+            HttpStatusCode.SUCCESS,
+            "Lấy danh sách cuộc hẹn thành công"
+        )
+    }
+
+    async getMedicalDetail(appointment_id: number) {
+        const appointment = await this.appointmentRepository.findOneBy({
+            id: appointment_id,
+        })
+
+        if (!appointment) {
+            return new ResponseData(
+                appointment,
+                HttpStatusCode.SUCCESS,
+                "Lấy danh sách cuộc hẹn thành công"
+            )
+        }
+        const hospital = await this.hospitalRepository.findOneBy({
+            id: appointment.hospital_id,
+        })
+
+        const prescription = await this.prescriptionRepository
+        .createQueryBuilder("prescription")
+        .leftJoinAndSelect("prescription.prescriptionMedicine", "prescriptionMedicine")
+        .leftJoinAndSelect("prescriptionMedicine.medicine", "medicine")
+        .where("prescription.appointment_id = :id", { id: appointment_id })
+        .getOne();
+
+
+        return new ResponseData(
+            {
+                hospital: hospital,
+                prescription: prescription,
+            },
+            HttpStatusCode.SUCCESS,
+            "Lấy danh sách cuộc hẹn thành công"
         )
     }
 }

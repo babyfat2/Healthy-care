@@ -8,6 +8,8 @@ import { HttpStatusCode } from 'src/global/globalMessage';
 import { DataSource, Repository } from 'typeorm';
 import { AppointmentChangeDto } from './dto/AppointmentChange.dto';
 import { Patient } from 'src/entities/patient.entity';
+import { PatientGateway } from 'src/socket/patient/patient.gateway';
+import { AppointmentListDto } from './dto/AppointmentList.dto';
 
 @Injectable()
 export class AppointmentService {
@@ -19,16 +21,27 @@ export class AppointmentService {
         private readonly patientRepository: Repository<Patient>,
         @InjectDataSource()
         private readonly dataSource: DataSource,
+        private readonly pateintGateway: PatientGateway,
     ) { }
 
     // lấy danh sách cuộc hen
-    async getListAppointment(query: PaginationDto, request: any) {
+    async getListAppointment(query: AppointmentListDto, request: any) {
         let hospital_id = request.hospital_id;
+
+
+        const where: any = {
+            hospital_id: hospital_id,
+          };
+          
+        if (query.status !== undefined) {
+            where.status = query.status;
+          }
+
+        if (query.time !== undefined) {
+            where.appointment_time = query.time;
+        }
         const [appointments, total] = await this.appointmentRepository.findAndCount({
-            where: {
-                hospital_id: hospital_id,
-                status: ESTATUSAPOINTMENT.PENDING,
-            },
+            where,
             select: {
                 id: true,
                 stt: true,
@@ -87,71 +100,54 @@ export class AppointmentService {
         )
     }
 
-    // lấy danh sách người bệnh
-    async getDetailAppointment(request: any) {
+
+    // lấy chi tiết cuộc hẹn để xử lý
+    async progressAppointment(request: any, appointment_id: number) {
         // lấy id bệnh viện
         let hospital_id = request.hospital_id;
-        // lấy ngày hiện tại
-        const today = new Date();
-        const dateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
-        const queryRunner = this.dataSource.createQueryRunner();
-        await queryRunner.connect();
-        // bắt đầu transaction
-        await queryRunner.startTransaction();
+        const appointment = await this.appointmentRepository.findOneBy({
+            id: appointment_id,
+            hospital_id: hospital_id,
+        })
 
-        try {
-            // lấy cuộc hẹn có thứ tự gần nhất
-            const appointment = await queryRunner.manager.findOne(Appointment, {
-                where: {
-                    hospital_id,
-                    appointment_time: dateOnly,
-                    status: ESTATUSAPOINTMENT.CONFIRMED,
-                },
-                order: {
-                    stt: 'ASC',
-                },
-                lock: { mode: 'pessimistic_write' }, // 👈 KHÓA BẢN GHI
-            });
-
-
-            // trả về 400 nếu ko thấy còn bản ghi nào
-            if (!appointment) {
-                await queryRunner.rollbackTransaction();
-                return new ResponseData(null, HttpStatusCode.NOT_FOUND, "Đã hết người đặt khám trước hôm nay");
-            }
-
-            const pateint = await this.patientRepository.findOne({
-                where: {
-                    id: appointment.patient_id,
-                },
-                select: {
-                    id: true,
-                    citizen_identification_id: true,
-                    full_name: true,
-                    address: true,
-                    hometown: true,
-                    birthday: true,
-                    ethnicity: true,
-                    issued_date: true,
-                    issued_place: true,
-                    phone: true,
-                }
-            })
-
-            await queryRunner.manager.update(Appointment, { id: appointment.id }, {
-                status: ESTATUSAPOINTMENT.IN_PROGRESS,
-            });
-
-            await queryRunner.commitTransaction();
-
-            return new ResponseData({appointment: appointment, pateint: pateint}, HttpStatusCode.SUCCESS, "Lấy thông tin người bệnh thành công");
-
-        } catch (err) {
-            await queryRunner.rollbackTransaction();
-            throw err;
-        } finally {
-            await queryRunner.release();
+        if (!appointment) {
+            return new ResponseData(
+                null,
+                HttpStatusCode.NOT_FOUND,
+                "Không tìm thấy cuộc hẹn"
+            )
         }
+
+        // GỌI SOCKET ở đây 👇
+        await this.pateintGateway.inProgressAppointment();
+
+        // cập nhật trang thái cuộc hẹn
+        await this.appointmentRepository.update({id: appointment_id}, {status: ESTATUSAPOINTMENT.IN_PROGRESS});
+
+        const patient = await this.patientRepository.findOne({
+            where: {
+                id: appointment.patient_id,
+            },
+            select: {
+                id: true,
+                citizen_identification_id: true,
+                full_name: true,
+                address: true,
+                hometown: true,
+                birthday: true,
+                ethnicity: true,
+                issued_date: true,
+                issued_place: true,
+                phone: true,
+            }
+        })
+
+
+        return new ResponseData(
+            {appointment: appointment, patient: patient },
+            HttpStatusCode.SUCCESS,
+            "Lấy thông tin người bệnh thành công"
+        )
     }
 }

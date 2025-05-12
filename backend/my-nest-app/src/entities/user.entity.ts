@@ -7,6 +7,7 @@ import { ClinicalDoctor } from "./clinical_doctor.entity";
 import { ParaclinicalDoctor } from "./paraclinical_doctor.entity";
 import { Receptionist } from "./receptionist.entity";
 import { Patient } from "./patient.entity";
+import { Appointment } from "./appointments.entity";
 
 @Entity('users')
 export class User {
@@ -92,5 +93,11 @@ export class User {
     })
     @JoinColumn({name: 'patient_id'})
     patient: Patient;
+
+    @OneToMany(() => Appointment, appointment => appointment.user, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    appointment: Appointment[];
 
 }

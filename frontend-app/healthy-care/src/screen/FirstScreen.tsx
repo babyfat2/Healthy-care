@@ -8,20 +8,21 @@ const { width, height } = Dimensions.get('window');
 const slides = [
   {
     id: '1',
-    title: 'Chào mừng đến với Ứng dụng!',
-    description: 'Giải pháp tiện lợi để quản lý công việc của bạn mọi lúc mọi nơi.',
+    title: 'Chào mừng đến với ứng dụng!',
+    description: 'Trợ lý sức khỏe thông minh giúp bạn không bao giờ quên liều thuốc nào.',
   },
   {
     id: '2',
-    title: 'Theo dõi lịch trình',
-    description: 'Dễ dàng xem và cập nhật các công việc hàng ngày.',
+    title: 'Theo dõi lịch uống thuốc',
+    description: 'Dễ dàng quản lý lịch uống, nhận thông báo và đánh dấu đã uống thuốc.',
   },
   {
     id: '3',
-    title: 'Bắt đầu ngay!',
-    description: 'Tạo tài khoản hoặc đăng nhập để sử dụng ngay bây giờ.',
+    title: 'Bắt đầu chăm sóc sức khỏe ngay!',
+    description: 'Tạo tài khoản hoặc đăng nhập để theo dõi việc dùng thuốc mỗi ngày.',
   },
 ];
+
 
 const FirstScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -45,6 +46,9 @@ const FirstScreen = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      {/* Logo và tên ứng dụng */}
+      {/* Logo và tên ứng dụng */}
+
       <FlatList
         ref={flatListRef}
         data={slides}
@@ -55,14 +59,25 @@ const FirstScreen = () => {
         onViewableItemsChanged={onViewableItemsChanged.current}
         renderItem={({ item }) => (
           <View style={{ width, alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-        
-            <Text style={{ fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginTop: 20 }}>{item.title}</Text>
-            <Text style={{ fontSize: 16, color: '#666', textAlign: 'center', marginTop: 10 }}>{item.description}</Text>
-          </View>
+    {/* Logo và tên ứng dụng trong từng slide */}
+    <Image
+      source={require('../../assets/logo.png')}
+      style={{ width: 120, height: 120, resizeMode: 'contain', marginBottom: 10 }}
+    />
+    <Text style={{ fontSize: 32, fontWeight: 'bold', color: '#007BFF', marginBottom: 20 }}>
+      Healthy care
+    </Text>
+
+    <Text style={{ fontSize: 22, fontWeight: 'bold', textAlign: 'center', marginTop: 10 }}>
+      {item.title}
+    </Text>
+    <Text style={{ fontSize: 16, color: '#666', textAlign: 'center', marginTop: 10 }}>
+      {item.description}
+    </Text>
+  </View>
         )}
       />
 
-      {/* Chấm tròn hiển thị vị trí trang hiện tại */}
       <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 20 }}>
         {slides.map((_, index) => (
           <View

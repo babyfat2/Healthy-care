@@ -8,7 +8,7 @@ export class MedicineController {
 
    @Get('')
     @HttpCode(HttpStatus.OK)
-    async getListRoom(
+    async getListMedicine(
       @Query() query : PaginationAndSortDto,
     ) {
       return this.medicineService.getListMedicine(query);

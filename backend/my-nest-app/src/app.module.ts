@@ -14,6 +14,7 @@ import { MedicineModule } from './modules/medicine/medicine.module';
 import { PatientModule } from './modules/pateint/patient.module';
 import { ReceptionModule } from './modules/reception/reception.module';
 import { AppointmentModule } from './modules/appointment/appointment.module';
+import { PatientGateway } from './socket/patient/patient.gateway';
 
 
 @Module({
@@ -35,6 +36,6 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
     AppointmentModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,  PatientGateway],
 })
 export class AppModule {}

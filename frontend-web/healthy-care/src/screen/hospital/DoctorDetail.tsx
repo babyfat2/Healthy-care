@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Phone, Mail, User } from "lucide-react";
 import { useGetDetailDoctorQuery, useLazyGetWorkCalenderDoctorQuery } from "../../redux/api/hospital";
@@ -8,7 +8,6 @@ import CalenderDoctorTable from "../../component/calender/CalenderDoctorTable";
 
 const DoctorDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const [time, setTime] = useState<string>();
   const [reload, setReload] = useState<boolean>(false);
 

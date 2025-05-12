@@ -1,5 +1,6 @@
 export type IColor = {
     backgroundColor: string;
+    backgroundSoft: string;
     primary: string;
     secondary: string;
     textHeader: string;
@@ -8,6 +9,10 @@ export type IColor = {
     button: string;
     card: string;
     tabNavigation: string;
+    border: string;
+    highlight: string;
+    textMuted: string;
+    cardShadow: string;
 };
 
 
@@ -18,26 +23,41 @@ type ColorPalettes = {
 
 export const Colors: ColorPalettes = {
     dark: {
-        backgroundColor: '#0D1117',   // Nền tối chuẩn, giảm độ gắt
-        primary: '#AAB8D0',           // Nhẹ hơn chút, dùng làm màu chính
-        secondary: '#5F87E6',         // Xanh thiên nhẹ để làm nổi bật
-        textHeader: '#BFDBFE',        // Xanh nhạt nổi bật (light blue-200)
-        text: '#E5E7EB',              // Xám sáng cho text chính
-        textSecond: '#60A5FA',        // Xanh dương nhạt hơn #1E90FF
-        button: '#3B82F6',            // Xanh blue-500, dễ nhìn trong dark
-        card: '#1E1E1E',              // Nền card tối nhưng phân tách
-        tabNavigation: '#121212',     // Gần nền chính nhưng có độ tương phản
+        backgroundColor: '#0D1117',
+        backgroundSoft: '#161B22',
+        card: '#1E1E1E',
+        tabNavigation: '#121212',
+        border: '#2C2C2C',
+
+        primary: '#AAB8D0',
+        secondary: '#5F87E6',
+        highlight: '#58A6FF',
+
+        text: '#E5E7EB',
+        textSecond: '#60A5FA',
+        textMuted: '#6B7280',
+        textHeader: '#BFDBFE',
+
+        button: '#3B82F6',
+        cardShadow: '#00000040',
     },
     light: {
-        backgroundColor: '#F9FAFB',    // Nền sáng nhẹ, thân thiện hơn trắng thuần
-        primary: '#1E3A8A',            // Xanh navy đậm (blue-900), tạo điểm nhấn tốt
-        secondary: '#2563EB',          // Blue-600, phù hợp làm accent
-        textHeader: '#1E40AF',         // Blue-800, rõ ràng nhưng không quá gắt
-        text: '#374151',               // Gray-700, dễ đọc, mềm mại hơn
-        textSecond: '#3B82F6',         // Blue-500 – đồng bộ với dark mode
-        button: '#3B82F6',             // Blue-500 – phổ biến, nổi bật
-        card: '#FFFFFF',               // Card trắng tạo sự phân tách rõ ràng
-        tabNavigation: '#F3F4F6',      // Gray-100, nhẹ nhàng hơn full trắng
+        backgroundColor: '#f7fafd',
+        backgroundSoft: '#F1F5F9',
+        card: '#FFFFFF',
+        tabNavigation: '#F3F4F6',
+        border: '#E5E7EB',
+
+        primary: '#1E3A8A',
+        secondary: '#2563EB',
+        highlight: '#2563EB',
+
+        text: '#374151',
+        textSecond: '#3B82F6',
+        textMuted: '#9CA3AF',
+        textHeader: '#1E40AF',
+
+        button: '#3B82F6',
+        cardShadow: '#00000010',
     },
 };
-

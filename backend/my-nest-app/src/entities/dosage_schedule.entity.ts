@@ -13,8 +13,15 @@ export class DosageSchedule {
     @Column({type: 'int', nullable: false })
     prescription_medicine_id: number;
 
-    @Column({type: 'time', nullable: false})
-    time: Date;
+    @Column({type: 'varchar', nullable: false})
+    time: string;
+
+    @Column({type: 'date', nullable: true})
+    date: Date;
+
+
+    @Column({type: 'boolean', default: false})
+    is_taken: boolean;
 
     @ManyToOne(() => PrescriptionMedicine, prescriptionMedicine => prescriptionMedicine.dosageSchedules, {
         onDelete: 'CASCADE',

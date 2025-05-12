@@ -31,6 +31,9 @@ export class Hospital {
     @Column({ type: 'text', nullable: true })
     description: string;
 
+    @Column({ type: 'text', nullable: true })
+    avatar: string;
+
     @Column('double')
     latitude: number;
   

@@ -14,6 +14,8 @@ import { hospitalApi } from './api/hospital';
 import user from './slide/user';
 import { medicineApi } from './api/medicine';
 import notification from './slide/notification';
+import { appointmentApi } from './api/appointment';
+import { receptionApi } from './api/reception';
 
 const persistConfig = {
   key: 'root',
@@ -29,6 +31,8 @@ const reducer = combineReducers({
   [doctorApi.reducerPath]: doctorApi.reducer,
   [hospitalApi.reducerPath]: hospitalApi.reducer,
   [medicineApi.reducerPath]: medicineApi.reducer,
+  [appointmentApi.reducerPath]: appointmentApi.reducer,
+  [receptionApi.reducerPath]: receptionApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
@@ -45,7 +49,9 @@ export const store = configureStore({
     .concat(authApi.middleware)
     .concat(doctorApi.middleware)
     .concat(hospitalApi.middleware)
-    .concat(medicineApi.middleware),
+    .concat(medicineApi.middleware)
+    .concat(appointmentApi.middleware)
+    .concat(receptionApi.middleware),
 })
 
 export type RootState = ReturnType<typeof store.getState>;

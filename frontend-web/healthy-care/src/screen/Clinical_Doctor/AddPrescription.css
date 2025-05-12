@@ -1,0 +1,153 @@
+.container {
+  display: flex;
+  height: 100%;
+  padding: 1rem;
+  background-color: #f3f4f6;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.left-panel {
+  width: 50%;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.right-panel {
+  width: 60%;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  overflow-y: auto;
+  height: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.left-panel {
+  padding: 16px;
+  background-color: #f9f9f9;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.diagnosis-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.diagnosis-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.prescription-code {
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.prescription-title {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.prescription-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.prescription-table th,
+.prescription-table td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.prescription-table thead {
+  background-color: #e5e7eb;
+}
+
+/* Đảm bảo nút "Xóa" chỉ hiển thị trong giao diện, không xuất hiện trong PDF */
+.delete-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* Ẩn nút "Xóa" khi in PDF */
+@media print {
+  .delete-btn {
+    display: none;
+  }
+  .action-column {
+    display: none; /* Ẩn cột "Hành động" */
+  }
+}
+
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.signature {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.doctor-name {
+  margin-top: 5rem;
+  font-style: italic;
+}
+
+.export-button {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.export-button button {
+  padding: 0.5rem 1rem;
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.export-button button:hover {
+  background-color: #1d4ed8;
+}

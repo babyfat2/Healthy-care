@@ -56,14 +56,13 @@ const BookingButton = ({
         }
 
         setError(""); // Xoá lỗi nếu hợp lệ
-        console.log("aaa");
-        booking({hospital_id, description, appointment_time: date})
+        booking({hospital_id, description, appointment_time: date, phone: "0338673187"})
         .unwrap()
         .then((e) => {
-            console.log(e);
+            alert(e.message);
         })
         .catch((err) => {
-            console.log(err);
+            alert(err.data.message);
         })
 
         setModalVisible(false);

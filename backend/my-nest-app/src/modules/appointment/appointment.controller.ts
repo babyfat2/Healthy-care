@@ -1,9 +1,10 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Query, Request, UseGuards } from '@nestjs/common';
 import { AppointmentService } from './appointment.service';
 import { PaginationDto } from 'src/common/dto/Pagination.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { HospitalReceptionAuthGuard } from 'src/guards/hospital-reception/hospital-reception.guard';
 import { AppointmentChangeDto } from './dto/AppointmentChange.dto';
+import { AppointmentListDto } from './dto/AppointmentList.dto';
 
 
 @Controller('appointment')
@@ -15,7 +16,7 @@ export class AppointmentController {
   @Get('')
   @HttpCode(HttpStatus.OK)
   async getListAppointment(
-    @Query() query: PaginationDto,
+    @Query() query: AppointmentListDto,
     @Request() request: any,
   ) {
     return this.appointmentService.getListAppointment(query, request);
@@ -32,11 +33,12 @@ export class AppointmentController {
   }
 
   @UseGuards(HospitalReceptionAuthGuard)
-  @Get('/detail')
+  @Get('/:id')
   @HttpCode(HttpStatus.OK)
   async getDetailAppointment(
     @Request() request: any,
+    @Param("id", ParseIntPipe) id: number,
   ) {
-    return this.appointmentService.getDetailAppointment(request);
+    return this.appointmentService.progressAppointment(request, id);
   }
 }

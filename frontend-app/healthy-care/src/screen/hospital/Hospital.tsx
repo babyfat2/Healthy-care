@@ -15,6 +15,7 @@ import { HospitalNavigationProp } from '../../type/navigation';
 import useStyles from '../../style/useStyles';
 import { createHospitalStyles } from './HospitalStyle';
 import { useAppSelector } from '../../redux/hook';
+import Header from '../../component/header/Header';
 
 const defaultImage = 'https://cdn-icons-png.flaticon.com/512/888/888064.png';
 
@@ -32,7 +33,7 @@ const Hospital = ({ navigation }: HospitalNavigationProp) => {
   const [isLoadingMore, setIsLoadingMore] = useState(false); // hiển thị giao diện đợi load trang
   const [hasMore, setHasMore] = useState(true); // còn dữ liệu hay ko
   const [isFetchingLocation, setIsFetchingLocation] = useState(false); // việc lấy vị trí đã xong hay chưa
-  const [query, setQuery] = useState<any>({ 
+  const [query, setQuery] = useState<any>({
     page: 1,
     row: 7,
   }); // câu lệnh truy vấn
@@ -145,9 +146,7 @@ const Hospital = ({ navigation }: HospitalNavigationProp) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Danh sách bệnh viện</Text>
-
-      {/* Thanh tìm kiếm và nút gọn */}
+      <Header />
       <View style={styles.searchRow}>
         <TextInput
           style={styles.searchInput}
@@ -186,7 +185,7 @@ const Hospital = ({ navigation }: HospitalNavigationProp) => {
             onPress={() => navigation.navigate("HospitalDetail", { hospital_id: item.id })}
           >
             <Image
-              source={{ uri: item.hospitalImage ? item.hospitalImage[0].image_uri : defaultImage }}
+              source={{ uri: item.avatar ? item.avatar : defaultImage }}
               style={styles.image}
             />
             <View style={styles.infoContainer}>
@@ -194,7 +193,7 @@ const Hospital = ({ navigation }: HospitalNavigationProp) => {
               <Text style={styles.hospitalAddress}>{item.address}</Text>
               {sortByDistance && (
                 <Text style={styles.hospitalDistance}>
-                  📍 {item.distance} km
+                  📍 {item.distance && parseFloat(item.distance).toFixed(2)} km
                 </Text>
               )}
             </View>

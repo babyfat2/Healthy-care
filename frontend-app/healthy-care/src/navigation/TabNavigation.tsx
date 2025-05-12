@@ -1,24 +1,29 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-
-import Home from '../screen/Home';
 import Hospital from '../screen/hospital/Hospital';
 import Setting from '../screen/Setting/Setting';
 import useThemeColor from '../style/useThemeColor';
-import MainNavigation from './MainNavigation';
+import { RootTabParamList } from '../type/navigation';
+import MedicineListScreen from '../screen/MedicineList/MedicineList';
+import MedicineSchedule from '../screen/medicineSchedule/MedicineSchedule';
+import MedicalHistory from '../screen/MedicalHistory/MedicalHistory';
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 
 const getIconName = (routeName: string, focused: boolean) => {
   switch (routeName) {
-    case 'Home':
-      return focused ? 'home' : 'home-outline';
+    case 'MedicalHistory':
+      return focused ? 'list' : 'list-outline';
     case 'Hospital':
-      return focused ? 'medkit' : 'medkit-outline';
-    case 'Settings':
+      return focused ? 'business' : 'business-outline';
+    case 'Setting':
       return focused ? 'settings' : 'settings-outline';
+    case 'Medicine':
+      return focused ? 'medkit' : 'medkit-outline';
+      case 'MedicineSchedule':
+      return focused ? 'time' : 'time-outline';
     default:
       return 'ellipse-outline';
   }
@@ -33,7 +38,6 @@ export default function TabNavigation() {
           <Ionicons name={getIconName(route.name, focused)} size={size} color={color} />
         ),
         tabBarActiveTintColor: '#007AFF',
-        tabBarInactiveTintColor: '#8E8E93',
         tabBarStyle: {
           backgroundColor: color.tabNavigation,
           borderTopWidth: 0,
@@ -43,9 +47,15 @@ export default function TabNavigation() {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Hospital" component={Hospital} />
-      <Tab.Screen name="Settings" component={Setting} />
+      <Tab.Screen
+        name="MedicineSchedule"
+        component={MedicineSchedule}
+        options={{ tabBarLabel: 'Lịch biểu' }}
+      />
+      <Tab.Screen name="Hospital" component={Hospital} options={{ tabBarLabel: 'Bệnh viện' }} />
+      <Tab.Screen name="Medicine" component={MedicineListScreen} options={{ tabBarLabel: 'Thuốc' }} />
+      <Tab.Screen name="MedicalHistory" component={MedicalHistory} options={{ tabBarLabel: 'Lịch sử khám' }} />
+      <Tab.Screen name="Setting" component={Setting} options={{ tabBarLabel: 'Cài đặt' }} />
     </Tab.Navigator>
   );
 }

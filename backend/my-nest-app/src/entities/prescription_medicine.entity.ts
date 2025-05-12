@@ -12,7 +12,16 @@ export class PrescriptionMedicine {
     id: number;
 
     @Column({type: 'int'})
-    ammount: number;
+    amount: number;
+
+    @Column({type: 'int'})
+    dose_quantity: number;
+    
+    @Column({type: 'int'})
+    timesPerDay: number;
+
+    @Column({type: 'varchar'})
+    note: string;
 
     @Column({type: 'date', nullable: false})
     start_time: Date;
@@ -23,8 +32,8 @@ export class PrescriptionMedicine {
     @Column({type: 'int'})
     medicine_id: number;
 
-    @Column({type: 'int'})
-    prescription_id: number;
+    @Column({type: 'varchar', length: 256})
+    prescription_id: string;
 
     @ManyToOne(() => Prescriptions, presciption => presciption.prescriptionMedicine, {
         onDelete: 'CASCADE',

@@ -33,10 +33,25 @@ export const authApi = createApi({
                 },
             })
         }),
-
+        register: builder.mutation<
+            {
+                message: string,
+            },
+            { username: string, password: string, full_name: string, role: string }
+        >({
+            query: (payload) => ({
+                url: "/register",
+                method: "POST",
+                body: payload,
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            })
+        }),
     }),
 });
 
 export const {
     useLoginMutation,
+    useRegisterMutation,
 } = authApi;

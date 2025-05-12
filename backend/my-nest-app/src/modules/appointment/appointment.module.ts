@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Appointment } from 'src/entities/appointments.entity';
 import { ReceptionModule } from '../reception/reception.module';
 import { Patient } from 'src/entities/patient.entity';
+import { PatientGateway } from 'src/socket/patient/patient.gateway';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { Patient } from 'src/entities/patient.entity';
 
   ],
   controllers: [AppointmentController],
-  providers: [AppointmentService],
+  providers: [AppointmentService, PatientGateway],
 })
 export class AppointmentModule { }

@@ -56,9 +56,9 @@ export const hospitalApi = createApi({
 
         booking: builder.mutation<
             {
-                data: any;
+                message: string;
             },
-            { hospital_id: number, description: string, appointment_time: Date }
+            { hospital_id: number, description: string, appointment_time: Date, phone: string }
         >({
             query: (payload) => ({
                 url: "/booking",

@@ -4,7 +4,6 @@ import { HospitalListDto } from './dto/HospitalList.dto';
 import { HospitalDetailDto } from './dto/HospitalDetail.dto';
 import { BookingDto } from './dto/Booking.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { PatientGuard } from 'src/guards/pateint/pateint.guard';
 
 @Controller('patient')
 @UseGuards(AuthGuard('jwt'))
@@ -34,5 +33,29 @@ export class PatientController {
     @Request() request: any,
   ) {
     return this.patientService.booking(body, request);
+  }
+
+  @Get('/prescription/:id')
+  @HttpCode(HttpStatus.OK)
+  async getPresciption(
+    @Param('id') id : string,
+  ) {
+    return this.patientService.getPrescription(id);
+  }
+
+  @Get('/medical')
+  @HttpCode(HttpStatus.OK)
+  async getMedical(
+    @Request() request : any,
+  ) {
+    return this.patientService.getMedical(request);
+  }
+
+  @Get('/medical/:id')
+  @HttpCode(HttpStatus.OK)
+  async getMedicalDetail(
+    @Param('id') id : number,
+  ) {
+    return this.patientService.getMedicalDetail(id);
   }
 }

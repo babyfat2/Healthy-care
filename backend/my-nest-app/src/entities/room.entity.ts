@@ -4,7 +4,6 @@ import { Hospital } from "./hospital.entity";
 import { WorkCalender } from "./work_calender.entity";
 import { Schedule } from "./schedule.entity";
 import { Prescriptions } from "./prescription.entity";
-import { Service } from "./service.entity";
 
 @Entity("rooms")
 export class Room {
@@ -38,20 +37,6 @@ export class Room {
     @JoinColumn({name: "hospital_id"})
     hospital: Hospital;
 
-    @ManyToMany(() => Service)
-    @JoinTable({
-        name: "room_services",
-        joinColumn: {
-          name: "room_id",       
-          referencedColumnName: "id" 
-        },
-        inverseJoinColumn: {
-          name: "service_id",    
-          referencedColumnName: "id"
-        }
-      })
-    service: Service[];
-
     @OneToMany(() => WorkCalender, workCalender => workCalender.room, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
@@ -63,11 +48,5 @@ export class Room {
         onUpdate: 'CASCADE'
     })
     schedule: Schedule[];
-
-    @OneToMany(() => Prescriptions, prescriptions => prescriptions.room, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-    })
-    prescriptions: Prescriptions[]
 
 }

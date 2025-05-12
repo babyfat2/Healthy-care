@@ -35,6 +35,8 @@ export class Patient {
   @Column({ type: 'varchar', length: 256, nullable: true, default: null })
   phone: string;
 
+  @Column({ type: "varchar", length: 10, nullable: true })
+  gender: string;
 
   @OneToMany(() => Appointment, appointment => appointment.patient, {
     onDelete: 'CASCADE',

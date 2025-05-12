@@ -48,7 +48,7 @@ function Login() {
         login({ username: email, password })
             .unwrap()
             .then(res => {
-                console.log(res);
+                
             })
             .catch(err => {
                 setGeneralError('Email hoặc mật khẩu không chính xác.');

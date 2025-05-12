@@ -17,9 +17,9 @@ export default function Setting() {
     const handleFontSizeChange = (value: number) => dispatch(changeFontSize({ fontSize: value - 16 }));
 
     const userInfo = {
-        name: 'Nguyễn Văn A',
-        email: 'vana@example.com',
-        avatar: 'https://i.pravatar.cc/100?img=1',
+        name: 'Đỗ Minh Đức',
+        email: 'doduc2003uet@gmailcom',
+        avatar: 'https://cdn2.fptshop.com.vn/unsafe/800x0/avatar_dep_cho_nam_15_0430f33145.jpg',
     };
 
     const handleLogout = () => {
@@ -82,6 +82,7 @@ const createStyles = (size: ISize, color: IColor) =>
         container: {
             flex: 1,
             padding: 20,
+            paddingTop: 0,
             justifyContent: 'space-between',
             backgroundColor: color.backgroundColor,
         },

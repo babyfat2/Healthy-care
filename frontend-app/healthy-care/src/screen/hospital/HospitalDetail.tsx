@@ -26,7 +26,7 @@ const HospitalDetail = ({ navigation, route }: HospitalDetailNavigationProp) => 
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.screen} contentContainerStyle={{ paddingBottom: 140 }}>
+      <ScrollView style={styles.screen} contentContainerStyle={{ paddingBottom: 140 }} showsVerticalScrollIndicator={false}>
         <View style={styles.heroContainer}>
           {data?.hospitalImage && (
             <PagerView style={styles.pagerView} initialPage={0}>
