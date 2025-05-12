@@ -6,7 +6,7 @@ import { ESPECIALTIES, ESTAFF, ESTATUS } from "../../type/enum";
 export const medicineApi = createApi({
     reducerPath: "medicineApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: import.meta.env.VITE_DOMAIN + `medicine`,
+        baseUrl: import.meta.env.VITE_DOMAIN + `/medicine`,
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).user.token;
             // If we have a token, set it in the header

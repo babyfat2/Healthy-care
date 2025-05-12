@@ -1,11 +1,13 @@
 import { EROLE } from "src/global/globalEnum";
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { RequestViewMedicalRecord } from "./request_view_medical_record.entity";
 import { WorkCalender } from "./work_calender.entity";
 import { StaffHospital } from "./staff_hospital.entity";
 import { ClinicalDoctor } from "./clinical_doctor.entity";
 import { ParaclinicalDoctor } from "./paraclinical_doctor.entity";
 import { Receptionist } from "./receptionist.entity";
+import { Patient } from "./patient.entity";
+import { Appointment } from "./appointments.entity";
 
 @Entity('users')
 export class User {
@@ -34,7 +36,8 @@ export class User {
     @Column({ type: 'enum', enum: EROLE, default: EROLE.PATIENT })
     role: EROLE;
 
-
+    @Column({ type: 'int', nullable: true })
+    patient_id: number;
 
     @OneToMany(() => RequestViewMedicalRecord, requestViewMedicalRecord => requestViewMedicalRecord.patient, {
         onDelete: 'SET NULL',
@@ -83,5 +86,18 @@ export class User {
     })
     @JoinColumn({ name: "receptionist_id"})
     receptionist?: Receptionist;
+
+    @ManyToOne(() => Patient, patient => patient.user, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    })
+    @JoinColumn({name: 'patient_id'})
+    patient: Patient;
+
+    @OneToMany(() => Appointment, appointment => appointment.user, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    })
+    appointment: Appointment[];
 
 }

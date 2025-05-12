@@ -22,6 +22,9 @@ export class Medicine {
 
     @Column({type: 'varchar', length: 256, nullable: true})
     description: string;
+    
+    @Column({type: 'varchar', length: 256, nullable: true})
+    form: string;
 
     @Column({type: 'int'})
     price: number;

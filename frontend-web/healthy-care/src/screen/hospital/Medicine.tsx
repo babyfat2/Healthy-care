@@ -4,7 +4,7 @@ import { useLazyGetListMedicineQuery } from "../../redux/api/medicine";
 
 export default function Medicine() {
   const [search, setSearch] = useState("");
-  const [trigger, { data, isFetching, error }] = useLazyGetListMedicineQuery();
+  const [trigger, { data }] = useLazyGetListMedicineQuery();
 
   useEffect(() => {
     let dataQuery = {};

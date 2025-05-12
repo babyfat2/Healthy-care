@@ -9,6 +9,7 @@ import { RoomCreateDto } from './dto/RoomCreate.dto';
 import { WorkDoctorGetDto } from './dto/WorkDoctorGet.dto';
 import { WorkAddDto } from './dto/WorkAdd.dto';
 import { WorkRoomGetDto } from './dto/WorkRoomGet.dto';
+import { HospitalReceptionAuthGuard } from 'src/guards/hospital-reception/hospital-reception.guard';
 
 @Controller('hospital')
 @UseGuards(AuthGuard('jwt'))
@@ -65,7 +66,7 @@ export class HospitalController {
   }
 
   // lấy danh sách phòng khám
-  @UseGuards(HospitalAuthGuard)
+  @UseGuards(HospitalReceptionAuthGuard)
   @Get('/room')
   @HttpCode(HttpStatus.OK)
   async getListRoom(

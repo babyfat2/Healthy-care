@@ -39,6 +39,16 @@ export interface IMedicine  {
     code: number;
     description: string;
     price: number;
+    form: string;
+}
+
+export interface IMedicinePrescription  {
+    id: string;
+    medicine: IMedicine
+    amount: string;
+    timesPerDay: string;
+    dose_quantity: string;
+    note: string;
 }
 
 export interface IResult  {
@@ -51,4 +61,27 @@ export interface IWorkDoctor  {
     work_time: string,
     room_number: number,
     name_building: string,
+}
+
+export interface IAppointment  {
+    id: number;
+    stt: number;
+    description: string,
+    name: string,
+    appointment_time: Date,
+    phone: string;
+    status: string | undefined;
+}
+
+export interface IPatient {
+    id: number,
+    citizen_identification_id: string | null,
+    full_name: string | null,
+    address: string | null,
+    hometown: string | null,
+    birthday: string | null,
+    ethnicity: string | null,
+    issued_date: string | null,
+    issued_place: string | null,
+    phone: string | null,
 }

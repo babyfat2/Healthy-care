@@ -23,6 +23,7 @@ export class UserService {
                     email: true,
                     role: true,
                     avatar: true,
+                    full_name: true,
                 }
             })
           }

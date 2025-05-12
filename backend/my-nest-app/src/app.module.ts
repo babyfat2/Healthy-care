@@ -11,6 +11,11 @@ import { MailModule } from './modules/mail/mail.module';
 import { DoctorModule } from './modules/doctor/doctor.module';
 import { HospitalModule } from './modules/hospital/hospital.module';
 import { MedicineModule } from './modules/medicine/medicine.module';
+import { PatientModule } from './modules/pateint/patient.module';
+import { ReceptionModule } from './modules/reception/reception.module';
+import { AppointmentModule } from './modules/appointment/appointment.module';
+import { PatientGateway } from './socket/patient/patient.gateway';
+
 
 @Module({
   imports: [
@@ -26,8 +31,11 @@ import { MedicineModule } from './modules/medicine/medicine.module';
     DoctorModule,
     HospitalModule,
     MedicineModule,
+    PatientModule,
+    ReceptionModule,
+    AppointmentModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,  PatientGateway],
 })
 export class AppModule {}

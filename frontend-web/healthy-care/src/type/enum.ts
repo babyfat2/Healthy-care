@@ -100,3 +100,14 @@ export enum ENOTIFICATIONTYPE {
     SUCCESS = "success",
     ERROR = "error",
 }
+
+export enum ESTATUSAPOINTMENT {
+    PENDING = 'Đặt trước', // đặt trước (chưa được xác nhận)
+    CONFIRMED = 'Xác nhận', // đã được xác nhận và có lịch khám
+    IN_PROGRESS = 'Đang xử lý', // đang nhập thông tin hồ sơ
+    IN_CONSULTATION = 'Đang khám', // hoàn thành việc khám bệnh
+    MISSED = 'Bỏ khám', // gọi người bệnh không được
+    CANCELLED = 'Đã hủy', //do người dùng hủy
+    REJECTED = "Từ chối", // do bệnh viện từ chối
+    COMPLETED = 'Hoàn thành' // hoàn thành việc khám
+}

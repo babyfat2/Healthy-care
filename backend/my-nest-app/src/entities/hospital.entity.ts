@@ -5,6 +5,7 @@ import { Prescriptions } from "./prescription.entity";
 import { StaffHospital } from "./staff_hospital.entity";
 import { User } from "./user.entity";
 import { Medicine } from "./medicine.entity";
+import { HospitalImage } from "./hospital_image.entity";
 
 @Entity('hospital')
 export class Hospital {
@@ -27,8 +28,21 @@ export class Hospital {
     @Column({type: 'varchar', length: 256, nullable: false})
     email: string;
 
+    @Column({ type: 'text', nullable: true })
+    description: string;
+
+    @Column({ type: 'text', nullable: true })
+    avatar: string;
+
+    @Column('double')
+    latitude: number;
+  
+    @Column('double')
+    longitude: number;
+
     @Column({type: 'int'})
     user_id: number;
+    
 
     @OneToMany(() => Appointment, appointment =>  appointment.hospital, {
         onDelete: 'CASCADE',
@@ -40,7 +54,7 @@ export class Hospital {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
     })
-    clinic: Room[];
+    room: Room[];
 
     @OneToMany(() => Prescriptions, prescription => prescription.hospital, {
         onDelete: 'CASCADE',
@@ -53,6 +67,13 @@ export class Hospital {
         onUpdate: 'CASCADE',
     })
     staffHospital: StaffHospital[];
+
+    @OneToMany(() => HospitalImage, hospitalImage => hospitalImage.hospital, {
+        onDelete: "CASCADE",
+        onUpdate: 'CASCADE',
+    })
+    hospitalImage: HospitalImage[];
+
 
 
     @OneToOne(() => User, {
